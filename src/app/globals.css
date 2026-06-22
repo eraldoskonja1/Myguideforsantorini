@@ -1,0 +1,109 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #0f1923;
+
+  /* Brand palette */
+  --color-blue-50: #E8F4FD;
+  --color-blue-100: #C5E1F5;
+  --color-blue-300: #3399DD;
+  --color-blue-500: #0077CC;
+  --color-blue-700: #005599;
+  --color-blue-900: #003E6B;
+
+  --color-ink: #0F1923;
+  --color-ink-soft: #374151;
+  --color-ink-muted: #6B7280;
+  --color-off-white: #F8FAFC;
+
+  --font-display: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+  --font-body: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-santorini-50: var(--color-blue-50);
+  --color-santorini-100: var(--color-blue-100);
+  --color-santorini-300: var(--color-blue-300);
+  --color-santorini-500: var(--color-blue-500);
+  --color-santorini-700: var(--color-blue-700);
+  --color-santorini-900: var(--color-blue-900);
+
+  --color-ink: var(--color-ink);
+  --color-ink-soft: var(--color-ink-soft);
+  --color-ink-muted: var(--color-ink-muted);
+  --color-off-white: var(--color-off-white);
+
+  --font-sans: var(--font-body);
+  --font-serif: var(--font-display);
+
+  --shadow-soft: 0 2px 12px rgba(0,119,204,0.08);
+  --shadow-medium: 0 8px 32px rgba(0,119,204,0.12);
+  --shadow-strong: 0 20px 60px rgba(0,119,204,0.16);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body);
+}
+
+/* Reusable animation utilities */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.55; transform: scale(1.5); }
+}
+
+.animate-fade-up {
+  animation: fadeUp 0.8s ease both;
+}
+
+.pulse-dot {
+  animation: pulseDot 2s infinite;
+}
+
+/* Scroll reveal (progressive enhancement via IntersectionObserver) */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .animate-fade-up, .pulse-dot {
+    animation: none !important;
+  }
+}
+
+/* Focus visibility for accessibility */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--color-blue-500);
+  outline-offset: 2px;
+}
