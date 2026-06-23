@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Compass, MessageCircle } from "lucide-react";
 import { heroStats } from "@/lib/content";
 
@@ -45,20 +46,20 @@ export default function Hero() {
           className="animate-fade-up flex flex-wrap gap-4"
           style={{ animationDelay: "0.45s" }}
         >
-          <a
-            href="#services"
+          <Link
+            href="/services"
             className="inline-flex items-center gap-2.5 rounded-full bg-santorini-500 px-9 py-4 text-[15px] font-semibold text-white shadow-[0_4px_24px_rgba(0,119,204,0.5)] transition-all hover:-translate-y-0.5 hover:bg-santorini-700 hover:shadow-[0_8px_32px_rgba(0,119,204,0.6)]"
           >
             <Compass size={18} strokeWidth={2.5} />
             Book a Tour
-          </a>
-          <a
-            href="#contact"
+          </Link>
+          <Link
+            href="/contact"
             className="inline-flex items-center gap-2.5 rounded-full border-[1.5px] border-white/40 bg-white/10 px-9 py-4 text-[15px] font-semibold text-white backdrop-blur-md transition-all hover:-translate-y-0.5 hover:bg-white/20"
           >
             <MessageCircle size={18} strokeWidth={2.5} />
             Contact Us
-          </a>
+          </Link>
         </div>
       </div>
 

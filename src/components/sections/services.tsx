@@ -53,7 +53,7 @@ export default function Services() {
                     {service.description}
                   </p>
                   <a
-                    href="#contact"
+                    href="/contact"
                     className="mt-5 inline-flex items-center gap-1.5 text-[13px] font-semibold text-santorini-500 transition-colors duration-300 group-hover:text-white/90"
                   >
                     Book Now

@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { navLinks, siteConfig } from "@/lib/content";
 import Logo from "@/components/ui/logo";
@@ -8,6 +10,10 @@ import Logo from "@/components/ui/logo";
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const pathname = usePathname();
+
+  // On inner pages the hero is not full-bleed, so always show solid nav
+  const isHome = pathname === "/";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -18,48 +24,54 @@ export default function Navbar() {
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
+    return () => { document.body.style.overflow = ""; };
   }, [mobileOpen]);
+
+  const solid = !isHome || scrolled;
 
   return (
     <header>
       <nav
         className={`fixed top-0 inset-x-0 z-50 flex items-center justify-between px-[5%] transition-all duration-300 ${
-          scrolled
+          solid
             ? "h-[66px] bg-white/97 backdrop-blur-xl border-b border-santorini-500/10 shadow-[0_2px_12px_rgba(0,119,204,0.08)]"
             : "h-[76px] bg-transparent"
         }`}
       >
-        <Logo light={!scrolled} />
+        <Logo light={!solid} />
 
         <ul className="hidden md:flex items-center gap-9 list-none">
-          {navLinks.map((link) => (
-            <li key={link.href}>
-              <a
-                href={link.href}
-                className={`relative text-sm font-medium tracking-wide transition-colors after:absolute after:-bottom-1 after:left-0 after:right-0 after:h-[2px] after:bg-santorini-300 after:rounded-full after:scale-x-0 after:origin-left after:transition-transform after:duration-300 hover:after:scale-x-100 ${
-                  scrolled
-                    ? "text-ink-soft hover:text-santorini-500"
-                    : "text-white/90 hover:text-white"
-                }`}
-              >
-                {link.label}
-              </a>
-            </li>
-          ))}
+          {navLinks.map((link) => {
+            const active = pathname === link.href;
+            return (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  className={`relative text-sm font-medium tracking-wide transition-colors
+                    after:absolute after:-bottom-1 after:left-0 after:right-0 after:h-[2px]
+                    after:bg-santorini-300 after:rounded-full after:transition-transform after:duration-300
+                    ${active ? "after:scale-x-100" : "after:scale-x-0 after:origin-left hover:after:scale-x-100"}
+                    ${solid
+                      ? active ? "text-santorini-500" : "text-ink-soft hover:text-santorini-500"
+                      : active ? "text-white" : "text-white/90 hover:text-white"
+                    }`}
+                >
+                  {link.label}
+                </Link>
+              </li>
+            );
+          })}
           <li>
-            <a
-              href="#contact"
+            <Link
+              href="/contact"
               className={`inline-flex items-center rounded-full px-6 py-2.5 text-sm font-semibold transition-all hover:-translate-y-0.5 ${
-                scrolled
+                solid
                   ? "bg-santorini-500 text-white shadow-[0_2px_12px_rgba(0,0,0,0.12)] hover:bg-santorini-700"
                   : "bg-white text-santorini-500 shadow-[0_2px_12px_rgba(0,0,0,0.12)] hover:bg-santorini-50"
               }`}
             >
               Contact Us
-            </a>
+            </Link>
           </li>
         </ul>
 
@@ -70,9 +82,9 @@ export default function Navbar() {
           onClick={() => setMobileOpen((v) => !v)}
         >
           {mobileOpen ? (
-            <X className={scrolled ? "text-santorini-700" : "text-white"} size={26} />
+            <X className={solid ? "text-santorini-700" : "text-white"} size={26} />
           ) : (
-            <Menu className={scrolled ? "text-santorini-700" : "text-white"} size={26} />
+            <Menu className={solid ? "text-santorini-700" : "text-white"} size={26} />
           )}
         </button>
       </nav>
@@ -83,25 +95,25 @@ export default function Navbar() {
           mobileOpen ? "max-h-[420px] opacity-100 py-6" : "max-h-0 opacity-0 py-0"
         }`}
       >
-        {navLinks.map((link, i) => (
-          <a
+        {navLinks.map((link) => (
+          <Link
             key={link.href}
             href={link.href}
             onClick={() => setMobileOpen(false)}
-            className={`py-3.5 text-[15px] font-medium text-ink-soft border-b border-santorini-500/10 ${
-              i === navLinks.length - 1 ? "" : ""
+            className={`py-3.5 text-[15px] font-medium border-b border-santorini-500/10 ${
+              pathname === link.href ? "text-santorini-500" : "text-ink-soft"
             }`}
           >
             {link.label}
-          </a>
+          </Link>
         ))}
-        <a
-          href="#contact"
+        <Link
+          href="/contact"
           onClick={() => setMobileOpen(false)}
           className="py-3.5 text-[15px] font-medium text-ink-soft"
         >
           Contact Us
-        </a>
+        </Link>
         <a
           href={siteConfig.whatsappHref}
           target="_blank"

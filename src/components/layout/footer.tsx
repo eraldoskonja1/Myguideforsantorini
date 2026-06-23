@@ -1,24 +1,25 @@
+import Link from "next/link";
 import { MapPin, Phone, Mail } from "lucide-react";
 import { siteConfig } from "@/lib/content";
 import Logo from "@/components/ui/logo";
 import { InstagramIcon, FacebookIcon } from "@/components/ui/social-icons";
 
 const quickLinks = [
-  { label: "Home", href: "#home" },
-  { label: "About Us", href: "#about" },
-  { label: "Services", href: "#services" },
-  { label: "Santorini", href: "#santorini" },
-  { label: "Reviews", href: "#testimonials" },
-  { label: "Contact", href: "#contact" },
+  { label: "Home", href: "/" },
+  { label: "About Us", href: "/about" },
+  { label: "Services", href: "/services" },
+  { label: "Santorini", href: "/santorini" },
+  { label: "Reviews", href: "/about#testimonials" },
+  { label: "Contact", href: "/contact" },
 ];
 
 const serviceLinks = [
-  "Airport Transfers",
-  "Private Taxi",
-  "Island Tours",
-  "Cruise Transfers",
-  "Wedding Transport",
-  "Tour Guides",
+  { label: "Airport Transfers", href: "/services" },
+  { label: "Private Taxi", href: "/services" },
+  { label: "Island Tours", href: "/services" },
+  { label: "Cruise Transfers", href: "/services" },
+  { label: "Wedding Transport", href: "/services" },
+  { label: "Tour Guides", href: "/services" },
 ];
 
 export default function Footer() {
@@ -57,10 +58,10 @@ export default function Footer() {
             </h4>
             <ul className="flex flex-col gap-3">
               {quickLinks.map((link) => (
-                <li key={link.href}>
-                  <a href={link.href} className="text-sm text-white/65 transition-colors hover:text-white">
+                <li key={link.href + link.label}>
+                  <Link href={link.href} className="text-sm text-white/65 transition-colors hover:text-white">
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -71,11 +72,11 @@ export default function Footer() {
               Our Services
             </h4>
             <ul className="flex flex-col gap-3">
-              {serviceLinks.map((label) => (
-                <li key={label}>
-                  <a href="#services" className="text-sm text-white/65 transition-colors hover:text-white">
-                    {label}
-                  </a>
+              {serviceLinks.map((link) => (
+                <li key={link.label}>
+                  <Link href={link.href} className="text-sm text-white/65 transition-colors hover:text-white">
+                    {link.label}
+                  </Link>
                 </li>
               ))}
             </ul>

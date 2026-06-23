@@ -58,7 +58,7 @@ export default function Santorini() {
                 itinerary around you.
               </p>
               <a
-                href="#contact"
+                href="/contact"
                 className="inline-flex items-center rounded-full bg-white px-7 py-3 text-sm font-semibold text-santorini-500 transition-all hover:-translate-y-0.5 hover:bg-santorini-50"
               >
                 Plan My Tour
