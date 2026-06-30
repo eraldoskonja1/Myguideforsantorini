@@ -5,6 +5,9 @@ import { getNewEnquiries } from "@/lib/admin/enquiries";
 import AdminCalendar from "@/components/admin/calendar";
 import EnquiriesList from "@/components/admin/enquiries-list";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function AdminDashboardPage() {
   const [reservations, enquiries] = await Promise.all([
     getReservations(),

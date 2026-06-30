@@ -3,6 +3,9 @@ import { PlusCircle } from "lucide-react";
 import { getReservations } from "@/lib/admin/reservations";
 import ReservationsTable from "@/components/admin/reservations-table";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function ReservationsListPage() {
   const reservations = await getReservations();
 

@@ -5,6 +5,9 @@ import { getReservation, updateReservation } from "@/lib/admin/reservations";
 import ReservationForm from "@/components/admin/reservation-form";
 import StatusBadge from "@/components/admin/status-badge";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function EditReservationPage({
   params,
 }: {
