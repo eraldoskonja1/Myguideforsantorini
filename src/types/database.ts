@@ -1,9 +1,7 @@
 /**
  * Database types for the MyGuide for Santorini Supabase project.
- *
- * Mirrors the `contact_submissions` table. Run the SQL in
- * supabase/schema.sql against your project to create it.
  */
+
 export type ServiceType =
   | "Airport Transfer"
   | "Private Taxi"
@@ -13,6 +11,10 @@ export type ServiceType =
   | "Personal Tour Guide"
   | "Other";
 
+export type ReservationStatus = "pending" | "confirmed" | "completed" | "cancelled";
+export type ReservationSource = "manual" | "contact_form" | "whatsapp" | "phone";
+
+// ── Contact submissions (public enquiry form) ──────────────────────
 export interface ContactSubmission {
   id: string;
   created_at: string;
@@ -24,19 +26,25 @@ export interface ContactSubmission {
   status: "new" | "contacted" | "closed";
 }
 
-export type ContactSubmissionInsert = Omit<
-  ContactSubmission,
-  "id" | "created_at" | "status"
->;
+export type ContactSubmissionInsert = Omit<ContactSubmission, "id" | "created_at" | "status">;
 
-export interface Database {
-  public: {
-    Tables: {
-      contact_submissions: {
-        Row: ContactSubmission;
-        Insert: ContactSubmissionInsert;
-        Update: Partial<ContactSubmissionInsert>;
-      };
-    };
-  };
+// ── Reservations (admin-managed bookings) ─────────────────────────
+export interface Reservation {
+  id: string;
+  created_at: string;
+  full_name: string;
+  email: string;
+  phone: string | null;
+  service: ServiceType;
+  booking_date: string;   // ISO date: "2025-07-15"
+  booking_time: string | null; // "14:30"
+  num_guests: number;
+  pickup_location: string | null;
+  dropoff_location: string | null;
+  notes: string | null;
+  source: ReservationSource;
+  status: ReservationStatus;
 }
+
+export type ReservationInsert = Omit<Reservation, "id" | "created_at">;
+export type ReservationUpdate = Partial<ReservationInsert>;
