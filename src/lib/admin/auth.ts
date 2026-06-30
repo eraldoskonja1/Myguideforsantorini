@@ -39,11 +39,3 @@ export async function adminLogout() {
   cookieStore.delete(COOKIE_NAME);
   redirect("/admin/login");
 }
-
-export async function requireAdmin() {
-  const cookieStore = await cookies();
-  const session = cookieStore.get(COOKIE_NAME);
-  if (session?.value !== COOKIE_VALUE) {
-    redirect("/admin/login");
-  }
-}
