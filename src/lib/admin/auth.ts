@@ -8,10 +8,14 @@ const COOKIE_NAME = "mgfs_admin_session";
 const COOKIE_VALUE = "authenticated";
 const COOKIE_MAX_AGE = 60 * 60 * 8; // 8 hours
 
+export interface AdminLoginState {
+  error?: string;
+}
+
 export async function adminLogin(
-  _prevState: { error?: string },
+  _prevState: AdminLoginState,
   formData: FormData
-) {
+): Promise<AdminLoginState> {
   const password = String(formData.get("password") ?? "");
 
   if (password !== ADMIN_PASSWORD) {

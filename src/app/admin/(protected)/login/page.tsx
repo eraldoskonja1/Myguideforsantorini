@@ -1,11 +1,13 @@
 "use client";
 
 import { useActionState } from "react";
-import { adminLogin } from "@/lib/admin/auth";
+import { adminLogin, type AdminLoginState } from "@/lib/admin/auth";
 import Logo from "@/components/ui/logo";
 
+const initialState: AdminLoginState = {};
+
 export default function AdminLoginPage() {
-  const [state, formAction, isPending] = useActionState(adminLogin, {});
+  const [state, formAction, isPending] = useActionState(adminLogin, initialState);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-off-white px-4">

@@ -3,10 +3,11 @@
 import { useActionState } from "react";
 import Link from "next/link";
 import { serviceOptions } from "@/lib/content";
+import type { ReservationFormState } from "@/lib/admin/reservations";
 import type { Reservation } from "@/types/database";
 
 interface Props {
-  action: (prevState: { error?: string }, formData: FormData) => Promise<{ error?: string }>;
+  action: (prevState: ReservationFormState, formData: FormData) => Promise<ReservationFormState>;
   defaultValues?: Partial<Reservation>;
   isEdit?: boolean;
 }

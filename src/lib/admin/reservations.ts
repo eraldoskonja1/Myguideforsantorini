@@ -5,6 +5,10 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import type { ReservationInsert, ReservationUpdate, ReservationStatus } from "@/types/database";
 
+export interface ReservationFormState {
+  error?: string;
+}
+
 // ── Fetch all reservations ─────────────────────────────────────────
 export async function getReservations() {
   const supabase = await createClient();
@@ -32,9 +36,9 @@ export async function getReservation(id: string) {
 
 // ── Create reservation ─────────────────────────────────────────────
 export async function createReservation(
-  _prevState: { error?: string },
+  _prevState: ReservationFormState,
   formData: FormData
-) {
+): Promise<ReservationFormState> {
   const payload: ReservationInsert = {
     full_name: String(formData.get("full_name") ?? "").trim(),
     email: String(formData.get("email") ?? "").trim(),
@@ -66,9 +70,9 @@ export async function createReservation(
 // ── Update reservation ─────────────────────────────────────────────
 export async function updateReservation(
   id: string,
-  _prevState: { error?: string },
+  _prevState: ReservationFormState,
   formData: FormData
-) {
+): Promise<ReservationFormState> {
   const payload: ReservationUpdate = {
     full_name: String(formData.get("full_name") ?? "").trim(),
     email: String(formData.get("email") ?? "").trim(),
