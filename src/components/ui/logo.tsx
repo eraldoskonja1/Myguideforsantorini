@@ -3,7 +3,7 @@ import { siteConfig } from "@/lib/content";
 
 export default function Logo({ light = false }: { light?: boolean }) {
   return (
-    <Link href="#home" className="flex items-center gap-3 shrink-0">
+    <Link href="/" className="flex items-center gap-3 shrink-0">
       {/* SVG Logo Icon — Santorini scene: road, car, church domes, sun, sea */}
       <svg
         width="48"
