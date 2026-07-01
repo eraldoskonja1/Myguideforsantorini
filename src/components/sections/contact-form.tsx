@@ -154,7 +154,6 @@ export default function ContactForm() {
           <span>{state.error}</span>
         </div>
       )}
-
       <button
         type="submit"
         disabled={isPending}
