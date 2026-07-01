@@ -36,8 +36,12 @@ export default function ContactForm() {
     );
   }
 
+  // Build today's date string for min attribute (prevent past dates)
+  const today = new Date().toISOString().split("T")[0];
+
   return (
     <form ref={formRef} action={formAction} noValidate>
+      {/* Name + Email */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="mb-5 flex flex-col gap-2">
           <label htmlFor="name" className="text-[13px] font-semibold text-ink-soft">
@@ -67,6 +71,7 @@ export default function ContactForm() {
         </div>
       </div>
 
+      {/* Phone */}
       <div className="mb-5 flex flex-col gap-2">
         <label htmlFor="phone" className="text-[13px] font-semibold text-ink-soft">
           Phone / WhatsApp
@@ -80,6 +85,7 @@ export default function ContactForm() {
         />
       </div>
 
+      {/* Service */}
       <div className="mb-5 flex flex-col gap-2">
         <label htmlFor="service" className="text-[13px] font-semibold text-ink-soft">
           Service Required
@@ -99,6 +105,36 @@ export default function ContactForm() {
         </select>
       </div>
 
+      {/* Date + Time side by side */}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 mb-5">
+        <div className="flex flex-col gap-2">
+          <label htmlFor="booking_date" className="text-[13px] font-semibold text-ink-soft">
+            Preferred Date *
+          </label>
+          <input
+            id="booking_date"
+            name="booking_date"
+            type="date"
+            min={today}
+            required
+            className="rounded-[10px] border-[1.5px] border-santorini-500/15 bg-white px-[18px] py-3.5 text-sm text-ink outline-none transition-all focus:border-santorini-500 focus:shadow-[0_0_0_4px_rgba(0,119,204,0.1)]"
+          />
+        </div>
+        <div className="flex flex-col gap-2">
+          <label htmlFor="booking_time" className="text-[13px] font-semibold text-ink-soft">
+            Preferred Time *
+          </label>
+          <input
+            id="booking_time"
+            name="booking_time"
+            type="time"
+            required
+            className="rounded-[10px] border-[1.5px] border-santorini-500/15 bg-white px-[18px] py-3.5 text-sm text-ink outline-none transition-all focus:border-santorini-500 focus:shadow-[0_0_0_4px_rgba(0,119,204,0.1)]"
+          />
+        </div>
+      </div>
+
+      {/* Message */}
       <div className="mb-5 flex flex-col gap-2">
         <label htmlFor="message" className="text-[13px] font-semibold text-ink-soft">
           Your Message *
@@ -107,7 +143,7 @@ export default function ContactForm() {
           id="message"
           name="message"
           required
-          placeholder="Tell us your dates, group size, and any special requests..."
+          placeholder="Tell us your group size and any special requests..."
           className="h-[120px] resize-y rounded-[10px] border-[1.5px] border-santorini-500/15 bg-white px-[18px] py-3.5 text-sm text-ink outline-none transition-all focus:border-santorini-500 focus:shadow-[0_0_0_4px_rgba(0,119,204,0.1)]"
         />
       </div>

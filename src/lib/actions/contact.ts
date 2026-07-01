@@ -14,17 +14,35 @@ function isValidEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
+function formatDate(dateStr: string): string {
+  if (!dateStr) return "Not specified";
+  const [year, month, day] = dateStr.split("-");
+  const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  return `${day} ${months[parseInt(month) - 1]} ${year}`;
+}
+
+function formatTime(timeStr: string): string {
+  if (!timeStr) return "Not specified";
+  const [h, m] = timeStr.split(":");
+  const hour = parseInt(h);
+  const ampm = hour >= 12 ? "PM" : "AM";
+  const hour12 = hour % 12 || 12;
+  return `${hour12}:${m} ${ampm}`;
+}
+
 export async function submitContactForm(
   _prevState: ContactFormState,
   formData: FormData
 ): Promise<ContactFormState> {
-  const fullName = String(formData.get("name") ?? "").trim();
-  const email = String(formData.get("email") ?? "").trim();
-  const phone = String(formData.get("phone") ?? "").trim();
-  const service = String(formData.get("service") ?? "").trim();
-  const message = String(formData.get("message") ?? "").trim();
+  const fullName     = String(formData.get("name")         ?? "").trim();
+  const email        = String(formData.get("email")        ?? "").trim();
+  const phone        = String(formData.get("phone")        ?? "").trim();
+  const service      = String(formData.get("service")      ?? "").trim();
+  const bookingDate  = String(formData.get("booking_date") ?? "").trim();
+  const bookingTime  = String(formData.get("booking_time") ?? "").trim();
+  const message      = String(formData.get("message")      ?? "").trim();
 
-  if (!fullName || !email || !message) {
+  if (!fullName || !email || !message || !bookingDate || !bookingTime) {
     return { success: false, error: "Please fill in all required fields." };
   }
 
@@ -53,14 +71,13 @@ export async function submitContactForm(
     }
 
     // 2. Create reservation in admin panel
-    const todayDate = new Date().toISOString().split("T")[0];
     const { error: reservationError } = await supabase.from("reservations").insert({
       full_name: fullName,
       email,
       phone: phone || null,
       service: (service || "Other") as ServiceType,
-      booking_date: todayDate,
-      booking_time: null,
+      booking_date: bookingDate,
+      booking_time: bookingTime || null,
       num_guests: 1,
       pickup_location: null,
       dropoff_location: null,
@@ -79,7 +96,7 @@ export async function submitContactForm(
       await resend.emails.send({
         from: "MyGuide Santorini <onboarding@resend.dev>",
         to: "myguideforsantorini@gmail.com",
-        subject: `🆕 New Reservation – ${fullName}`,
+        subject: `🆕 New Reservation – ${fullName} · ${formatDate(bookingDate)}`,
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; background: #f9fafb; border-radius: 12px;">
             <div style="background: #0077CC; border-radius: 10px; padding: 20px 24px; margin-bottom: 24px;">
@@ -108,6 +125,14 @@ export async function submitContactForm(
                 <tr>
                   <td style="padding: 10px 0; border-bottom: 1px solid #f0f0f0; color: #666; font-size: 14px;">🚗 Service</td>
                   <td style="padding: 10px 0; border-bottom: 1px solid #f0f0f0; font-size: 14px;">${service || "Not specified"}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 10px 0; border-bottom: 1px solid #f0f0f0; color: #666; font-size: 14px;">📅 Date</td>
+                  <td style="padding: 10px 0; border-bottom: 1px solid #f0f0f0; font-size: 14px; font-weight: bold; color: #0077CC;">${formatDate(bookingDate)}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 10px 0; border-bottom: 1px solid #f0f0f0; color: #666; font-size: 14px;">🕐 Time</td>
+                  <td style="padding: 10px 0; border-bottom: 1px solid #f0f0f0; font-size: 14px; font-weight: bold; color: #0077CC;">${formatTime(bookingTime)}</td>
                 </tr>
                 <tr>
                   <td style="padding: 10px 0; color: #666; font-size: 14px; vertical-align: top;">💬 Message</td>
