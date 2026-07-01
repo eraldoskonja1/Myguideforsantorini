@@ -38,7 +38,7 @@ export default function Navbar() {
             : "h-[76px] bg-transparent"
         }`}
       >
-        <Logo light={!solid} />
+        <Link href="/"><Logo light={!solid} /></Link>
 
         <ul className="hidden md:flex items-center gap-9 list-none">
           {navLinks.map((link) => {
